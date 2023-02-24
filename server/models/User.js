@@ -6,16 +6,37 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    name: {
+    subscriberId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    country: {
         type: String,
         required: true,
     },
-    password: {
+    city: {
         type: String,
         required: true,
     },
-    role: {
+    domain: {
         type: String,
+        required: true,
+    },
+    publicKey: {
+        type: String,
+        required: true,
+    },
+    privateKey: {
+        type: String,
+        required: true,
+    },
+    validFrom: {
+        type: Date,
+        required: true,
+    },
+    validTo: {
+        type: Date,
         required: true,
     },
 });
