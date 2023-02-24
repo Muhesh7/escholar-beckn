@@ -24,39 +24,37 @@ exports.requestBodyGenerator = (api, body, transactionId, messageId) => {
 	if (api === 'bg_search') {
 		requestBody.context.action = 'search'
 		requestBody.message = {
-			intent: {
-				descriptor: {
-					name: body.keyword,
-				},
-				item: { descriptor: { name: body.keyword } },
-			},
+			intent: body.intent,
 		}
-	} else if (api === 'bpp_init') {
+	}  else if (api === 'bpp_init') {
 		requestBody.context.action = 'init'
 		requestBody.message = {
 			order: {
-				id: uuidv4(),
+                provider: {
+                    id: body.providerId
+                },
 				items: [{ id: body.itemId }],
 				fulfillments: [{ id: body.fulfillmentId }],
-				billing: {
-					name: faker.name.fullName(),
-					phone: faker.phone.phoneNumber(),
-					email: faker.internet.email(),
-					time: {
-						timezone: 'IST',
-					},
-				},
 			},
 		}
-	} else if (api === 'bpp_cancel') {
-		requestBody.context.action = 'cancel'
+	} else if (api === 'bpp_select') {
+		requestBody.context.action = 'select'
 		requestBody.message = {
 			order: {
-				id: body.orderId,
+              provider: {
+                    id: body.providerId
+                },
+                fulfillments: body.fulfillmentIds,
+                items: body.items
 			},
-			cancellation_reason_id: 1,
-			descriptor: {
-				name: 'Because this course is too lengthy',
+		}
+	}  else if (api === 'bpp_confirm') {
+		requestBody.context.action = 'confirm'
+		requestBody.message = {
+			order: {
+              provider: body.provider,
+              fulfillments: body.fulfillments,
+              items: body.items
 			},
 		}
 	} else if (api === 'bpp_status') {
