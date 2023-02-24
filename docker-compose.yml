@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7.0.4
+    container_name: redis
+    ports:
+      - 6379:6379
+    command: '--requirepass password'
+    volumes:
+      - redis:/data
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 18081:8081
+
+volumes:
+  mongo:
+  redis:
