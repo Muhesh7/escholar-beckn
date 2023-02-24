@@ -53,8 +53,7 @@ router.post("/register", async function (req, res, next) {
       validFrom,
       validTo,
     });
-    await newUser.save();
-
+    
     try {
       const response = await axios.post(process.env.REGISTRY_ENDPOINT, {
         subscriber_id: subscriberId,
@@ -73,6 +72,7 @@ router.post("/register", async function (req, res, next) {
       console.log("Axios Request ERROR",err);
       throw err;
     }
+    await newUser.save();
     res.status(201).json({ message: "BPP created" });
 
   } catch (err) {
