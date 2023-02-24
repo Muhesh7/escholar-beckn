@@ -20,7 +20,8 @@ const useStyles = createStyles((theme) => ({
 
   animation: {
     width: '80%',
-    maxWidth: '800px'
+    maxWidth: '800px',
+    height: '400px'
   },
 
   link: {
@@ -69,7 +70,7 @@ export function Homepage() {
             autoplay
             loop
             mode="normal"
-            src="https://assets6.lottiefiles.com/packages/lf20_uhjx7rzs.json"
+            src="https://assets3.lottiefiles.com/packages/lf20_wncqbx3a.json"
           />
         </div>
       </Center>
