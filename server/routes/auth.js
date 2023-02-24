@@ -7,7 +7,7 @@ const axios = require("axios");
 const _sodium = require('libsodium-wrappers');
 const { base64_variants } = require('libsodium-wrappers');
 
-const createKeyPair=async()=>{
+const createKeyPair = async () => {
   await _sodium.ready
   const sodium = _sodium
   let { publicKey, privateKey } = sodium.crypto_sign_keypair()
@@ -15,8 +15,8 @@ const createKeyPair=async()=>{
   const privateKey_base64 = sodium.to_base64(privateKey, base64_variants.ORIGINAL);
 
   return {
-      privateKey: privateKey_base64,
-      publicKey: publicKey_base64
+    privateKey: privateKey_base64,
+    publicKey: publicKey_base64
   }
 }
 
@@ -25,23 +25,24 @@ router.post("/register", async function (req, res, next) {
     email,
     department,
     organisation,
-    city,
-    domain,
-    } = req.body;
-    
-    const country = "India";
-    const subscriberId = department + "." + organisation + "." + city + "." + domain;
-    const validFrom = new Date();
-    // add 30 days to current date
-    const validTo = new Date(validFrom.getTime() + 30 * 24 * 60 * 60 * 1000);
-    try {
+    city
+  } = req.body;
+
+  const country = "IND";
+  const domain = "dsep:scholarships";
+  const subscriberId = department.toLowerCase() + "." + organisation.toLowerCase() + "." + city.toLowerCase() + "." + process.env.BECKN_HOST_NAME;
+  const validFrom = new Date();
+
+  // add 30 days to current date
+  const validTo = new Date(validFrom.getTime() + 30 * 24 * 60 * 60 * 1000);
+  try {
     // find if user already exists
     const user = await User.findOne({ subscriberId: subscriberId });
     if (user) {
       res.status(409).json({ message: "BPP already exists" });
       return;
     }
-    const {publicKey, privateKey} = await createKeyPair();
+    const { publicKey, privateKey } = await createKeyPair();
     const newUser = new User({
       email,
       subscriberId,
@@ -53,14 +54,14 @@ router.post("/register", async function (req, res, next) {
       validFrom,
       validTo,
     });
-    
+
     try {
       const response = await axios.post(process.env.REGISTRY_ENDPOINT, {
         subscriber_id: subscriberId,
         country: country,
         city: city,
         domain: domain,
-        signing_public_key : publicKey,
+        signing_public_key: publicKey,
         encr_public_key: publicKey,
         valid_from: validFrom,
         valid_until: validTo,
@@ -69,7 +70,7 @@ router.post("/register", async function (req, res, next) {
       console.log(response.data);
     }
     catch (err) {
-      console.log("Axios Request ERROR",err);
+      console.log("Axios Request ERROR", err);
       throw err;
     }
     await newUser.save();
@@ -102,9 +103,9 @@ router.get("/user", async function (req, res) {
   try {
     // check if logged in
     if (!req.user) {
-        return res.status(401).json({ message: "User not logged in" });
+      return res.status(401).json({ message: "User not logged in" });
     }
-    
+
     res.send(req.user);
   } catch (err) {
     res.status(500).send({ message: "Error getting user" });
