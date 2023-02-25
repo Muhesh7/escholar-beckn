@@ -80,11 +80,19 @@ export function FormPart() {
         }
       })
       .catch((err) => {
-        showNotification({
-          title: "Error",
-          message: "Provider creation failed",
-          color: "red",
-        });
+        if (err.response) {
+          showNotification({
+            title: "Error",
+            message: err.response.data.message,
+            color: "red",
+          });
+        } else {
+          showNotification({
+            title: "Error",
+            message: "Provider creation failed",
+            color: "red",
+          });
+        }
       });
   };
 
