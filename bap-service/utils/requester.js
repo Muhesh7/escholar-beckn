@@ -1,8 +1,6 @@
 'use strict'
 const axios = require('axios')
 const { createAuthorizationHeader } = require('./auth')
-//const https = require('https')
-//const httpsAgent = new https.Agent({ rejectUnauthorized: true })
 
 exports.postRequest = async (url, headers, body, { shouldSign }) => {
 	if (shouldSign) {

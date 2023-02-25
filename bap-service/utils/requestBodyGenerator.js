@@ -1,6 +1,5 @@
 'use strict'
 const { v4: uuidv4 } = require('uuid')
-const { faker } = require('@faker-js/faker')
 
 const requestBody = {
 	context: {
@@ -33,8 +32,8 @@ exports.requestBodyGenerator = (api, body, transactionId, messageId) => {
                 provider: {
                     id: body.providerId
                 },
-				items: [{ id: body.itemId }],
-				fulfillments: [{ id: body.fulfillmentId }],
+				items: body.items,
+				fulfillments: body.fulfillments,
 			},
 		}
 	} else if (api === 'bpp_select') {

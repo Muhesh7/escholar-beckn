@@ -1,12 +1,9 @@
 'use strict'
 const redis = require('redis')
 const client = redis.createClient({
-	url: process.env.REDIS_HOST,
+	url: process.env.REDIS_URL,
+	legacyMode: true
 })
-
-client.on('error', (err) => console.log('Redis Client Error: ', err))
-client.on('ready', () => console.log('Redis Client Connected'))
-client.connect()
 
 exports.cacheGet = async (key) => {
 	const data = await client.get(key)
@@ -59,3 +56,22 @@ exports.sendMessage = async (channelName, message) => {
 		await publisherClient.quit()
 	}
 }
+
+var { createClient } = require("redis");
+
+function connectRedis() {
+  client
+    .connect()
+    .then(() => {
+      console.log("Redis connected");
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Retrying redis connection in 5 seconds");
+      setTimeout(connectRedis, 5000);
+    });
+}
+
+connectRedis();
+
+module.exports = client;

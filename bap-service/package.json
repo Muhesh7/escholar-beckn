@@ -2,9 +2,9 @@
   "name": "bap",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@faker-js/faker": "^7.5.0",
     "axios": "^0.27.2",
+    "bcrypt": "^5.1.0",
+    "connect-redis": "^6.1.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
@@ -22,7 +24,10 @@
     "mongodb": "^4.1.2",
     "mongoose": "^6.1.6",
     "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "redis": "^4.3.1",
+    "socket.io": "^4.5.4",
     "uuid": "^9.0.0"
   }
 }
