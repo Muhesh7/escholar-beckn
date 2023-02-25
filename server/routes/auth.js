@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 var User = require("../models/User");
-const axios = require("axios");
 const {createKeyPair} = require("../utils/keyPair");
 const { createBPP } = require("../utils/registryRequests");
 
@@ -16,8 +15,6 @@ router.post("/register", async function (req, res) {
     city
   } = req.body;
 
-  const country = "IND";
-  const domain = "dsep:scholarships";
   const subscriberId = department.toLowerCase() + "." + organisation.toLowerCase() + "." + process.env.BECKN_HOST_NAME;
   try {
     // find if user already exists
@@ -30,9 +27,7 @@ router.post("/register", async function (req, res) {
     const newUser = new User({
       email,
       subscriberId,
-      country,
       city,
-      domain,
       publicKey,
       privateKey
     });

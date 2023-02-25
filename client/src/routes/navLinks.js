@@ -1,6 +1,6 @@
 import {
-  IconHome
-  // IconForms,
+  IconHome,
+  IconSearch,
   // IconFileReport,
   // IconFileUpload,
   // IconJumpRope,
@@ -9,5 +9,6 @@ import {
 } from '@tabler/icons';
 
 export const navLinks = [
-  { link: '/home', label: 'home', icon: IconHome }
+  { link: '/home', label: 'home', icon: IconHome },
+  { link: '/search', label: 'search', icon: IconSearch },
 ];

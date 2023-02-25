@@ -4,7 +4,7 @@ import {
   REGISTER_URL,
   LOGOUT_URL,
   USER_URL,
-  GET_ROLES_URL
+  SEARCH_URL
 } from './urls';
 
 // withCredentials
@@ -23,14 +23,14 @@ export const loginRequest = ({ email, password }) => axios.post(
 );
 
 export const registerRequest = ({
-  email, name, password, role
+  email, name, password, address
 }) => axios.post(
   REGISTER_URL,
   {
     email,
     password,
     name,
-    role
+    address
   },
   withCredentials
 );
@@ -39,6 +39,9 @@ export const logoutRequest = () => axios.get(LOGOUT_URL, withCredentials);
 
 export const userRequest = () => axios.get(USER_URL, withCredentials);
 
-// roles
-
-export const getRolesRequest = () => axios.get(`${GET_ROLES_URL}`, withCredentials);
+// search requests
+export const searchRequest = (query) => axios.post(
+  SEARCH_URL,
+  query,
+  withCredentials
+);

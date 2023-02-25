@@ -8,5 +8,5 @@ export const REGISTER_URL = `${BACKEND_URL}/auth/register`;
 export const LOGOUT_URL = `${BACKEND_URL}/auth/logout`;
 export const USER_URL = `${BACKEND_URL}/auth/user`;
 
-// roles
-export const GET_ROLES_URL = `${BACKEND_URL}/roles/list`;
+// search
+export const SEARCH_URL = `${BACKEND_URL}/bap/search`;

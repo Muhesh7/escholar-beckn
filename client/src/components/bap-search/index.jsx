@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     createStyles,
     TextInput,
@@ -9,9 +9,10 @@ import {
     Select,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import axios from "axios";
+import { useLoading } from "../../hooks/useLoading";
+import { searchRequest } from "../../utils/requests";
 import { showNotification } from "@mantine/notifications";
-import { REGISTER_URL } from "../../config";
+import { socket } from '../../socket';
 
 const useStyles = createStyles((theme) => ({
     root: {
@@ -34,7 +35,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function FormPart() {
+export function Search() {
     const { classes } = useStyles();
 
     const form = useForm({
@@ -45,23 +46,53 @@ export function FormPart() {
         },
     });
 
-    const handleSubmit = (values) => {
-        // axios
-        //   .post(REGISTER_URL, values)
-        //   .then((res) => {
-        //     showNotification({
-        //       title: "Success",
-        //       message: "Provider created successfully",
-        //       color: "green",
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     showNotification({
-        //       title: "Error",
-        //       message: "Provider creation failed",
-        //       color: "red",
-        //     });
-        //   });
+    useEffect(() => {
+        socket.on('connect', () => {
+          console.log('connected to server');
+        });
+        socket.on('disconnect', () => {
+          console.log('disconnected from server');
+        });
+        socket.on('onSearch', (data) => {
+          console.log(data);
+        });
+    
+        return () => {
+          socket.off('connect');
+          socket.off('disconnect');
+          socket.off('custom event');
+        };
+      }, []);
+
+    const { request } = useLoading();
+
+    const handleSubmit = async (values) => {
+        try {
+            const response = await request(()=>searchRequest(values));
+            console.log(response);
+            if (response.status === 200) {
+                showNotification({
+                    type: "success",
+                    title: "Search successful",
+                    message: response.data,
+
+                });
+            } else {
+                showNotification({
+                    color: "red",
+                    title: "Search failed",
+                    message: response.data
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            showNotification({
+                color: "red",
+                title: "Search failed",
+                
+            });
+        }
+
     };
 
     return (
@@ -92,6 +123,7 @@ export function FormPart() {
                     ]}
                     placeholder="Gender of the scholarship getter"
                     classNames={classes}
+                    {...form.getInputProps("gender")}
                 />
 
 

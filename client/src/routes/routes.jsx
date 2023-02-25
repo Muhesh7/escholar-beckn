@@ -5,6 +5,7 @@ import { AuthPageContainer } from '../containers/AuthPageContainer';
 import { LandingPageContainer } from '../containers/LandingPageContainer';
 
 import { Homepage } from '../components/Home';
+import { Search } from '../components/bap-search';
 
 export const publicRoutes = [
   {
@@ -25,5 +26,11 @@ export const privateRoutes = [
     component: <GeneralPageContainer child={<Homepage />} />,
     name: 'HomePageContainer',
     label: 'home'
-  }
+  },
+  {
+    url: '/search',
+    component: <GeneralPageContainer child={<Search />} />,
+    name: 'SearchPageContainer',
+    label: 'search'
+  },
 ];
