@@ -1,0 +1,82 @@
+{
+	"name": "escholar",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "Provider",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"scholarshipchannel": {
+			"peers": {
+				"peer0.provider.escholar.captainirs.dev": {},
+				"peer0.benefactors.escholar.captainirs.dev": {}
+			},
+			"connection": {
+				"timeout": {
+					"peer": {
+						"endorser": "6000",
+						"eventHub": "6000",
+						"eventReg": "6000"
+					}
+				}
+			}
+		}
+	},
+	"organizations": {
+		"Provider": {
+			"mspid": "ProviderMSP",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/peerOrganizations/provider.escholar.captainirs.dev/users/Admin@provider.escholar.captainirs.dev/msp/keystore/priv_sk"
+			},
+			"peers": ["peer0.provider.escholar.captainirs.dev"],
+			"signedCert": {
+				"path": "/tmp/crypto/peerOrganizations/provider.escholar.captainirs.dev/users/Admin@provider.escholar.captainirs.dev/msp/signcerts/cert.pem"
+			}
+		},
+		"Benefactors": {
+			"mspid": "BenefactorsMSP",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/peerOrganizations/benefactors.escholar.captainirs.dev/users/Admin@benefactors.escholar.captainirs.dev/msp/keystore/priv_sk"
+			},
+			"peers": ["peer0.benefactors.escholar.captainirs.dev"],
+			"signedCert": {
+				"path": "/tmp/crypto/peerOrganizations/benefactors.escholar.captainirs.dev/users/Admin@benefactors.escholar.captainirs.dev/msp/signcerts/cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"peer0.provider.escholar.captainirs.dev": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/provider.escholar.captainirs.dev/peers/peer0.provider.escholar.captainirs.dev/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.provider.escholar.captainirs.dev:7051"
+		},
+		"peer0.benefactors.escholar.captainirs.dev": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/benefactors.escholar.captainirs.dev/peers/peer0.benefactors.escholar.captainirs.dev/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.benefactors.escholar.captainirs.dev:9051"
+		}
+	},
+	"orderers": {
+		"orderer.escholar.captainirs.dev": {
+		    "tlsCACerts": {
+				"path": "/tmp/crypto/ordererOrganizations/escholar.captainirs.dev/orderers/orderer.escholar.captainirs.dev/tls/ca.crt"
+			},
+		  "url": "grpcs://orderer.escholar.captainirs.dev:7050"
+		}
+	}
+}

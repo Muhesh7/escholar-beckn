@@ -1,0 +1,57 @@
+
+# SPDX-License-Identifier: Apache-2.0
+version: '2.1'
+
+volumes:
+  pgdata:
+
+networks:
+  escholar.captainirs.dev:
+    external:
+      name: fabric_test
+
+services:
+
+  explorerdb.escholar.captainirs.dev:
+    image: hyperledger/explorer-db:latest
+    container_name: explorerdb.escholar.captainirs.dev
+    hostname: explorerdb.escholar.captainirs.dev
+    environment:
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - escholar.captainirs.dev
+
+  explorer.escholar.captainirs.dev:
+    image: hyperledger/explorer:latest
+    container_name: explorer.escholar.captainirs.dev
+    hostname: explorer.escholar.captainirs.dev
+    environment:
+      - DATABASE_HOST=explorerdb.escholar.captainirs.dev
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWD=password
+      - LOG_LEVEL_APP=debug
+      - LOG_LEVEL_DB=debug
+      - LOG_LEVEL_CONSOLE=info
+      - LOG_CONSOLE_STDOUT=true
+      - DISCOVERY_AS_LOCALHOST=false
+    volumes:
+      - ./explorer-config/config.json:/opt/explorer/app/platform/fabric/config.json
+      - ./explorer-config/connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+      - ./organizations:/tmp/crypto
+    ports:
+      - 9999:8080
+    depends_on:
+      explorerdb.escholar.captainirs.dev:
+        condition: service_healthy
+    networks:
+      - escholar.captainirs.dev

@@ -1,0 +1,9 @@
+{
+	"network-configs": {
+		"escholar": {
+			"name": "escholar",
+			"profile": "/opt/explorer/app/platform/fabric/connection-profile/escholar.json"
+		}
+	},
+	"license": "Apache-2.0"
+}
