@@ -4,7 +4,6 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     subscriberId: {
         type: String,
@@ -30,15 +29,7 @@ const UserSchema = new mongoose.Schema({
     privateKey: {
         type: String,
         required: true,
-    },
-    validFrom: {
-        type: Date,
-        required: true,
-    },
-    validTo: {
-        type: Date,
-        required: true,
-    },
+    }
 });
 
 const User = mongoose.model("User", UserSchema);

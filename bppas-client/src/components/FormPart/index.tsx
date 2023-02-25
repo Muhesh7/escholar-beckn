@@ -65,11 +65,19 @@ export function FormPart() {
     axios
       .post(REGISTER_URL, values)
       .then((res) => {
-        showNotification({
-          title: "Success",
-          message: "Provider created successfully",
-          color: "green",
-        });
+        if (res.status === 201) {
+          showNotification({
+            title: "Success",
+            message: "Provider created successfully",
+            color: "green",
+          });
+        } else if (res.status === 409) {
+          showNotification({
+            title: "Error",
+            message: "Provider already exists",
+            color: "red",
+          });
+        }
       })
       .catch((err) => {
         showNotification({

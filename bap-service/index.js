@@ -4,7 +4,6 @@ var cookieParser = require('cookie-parser');
 
 var logger = require('morgan');
 require("dotenv").config();
-var session = require("express-session");
 var cors = require("cors");
 
 var app = express();
@@ -12,12 +11,6 @@ var app = express();
 app.use(cors({
     origin: '*',
     credentials: true
-}));
-
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true
 }));
 
 app.use(logger('dev'));

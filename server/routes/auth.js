@@ -1,26 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 const passport = require("passport");
 var User = require("../models/User");
 const axios = require("axios");
-const _sodium = require('libsodium-wrappers');
-const { base64_variants } = require('libsodium-wrappers');
+const {createKeyPair} = require("../utils/keyPair");
+const { createBPP } = require("../utils/registryRequests");
 
-const createKeyPair = async () => {
-  await _sodium.ready
-  const sodium = _sodium
-  let { publicKey, privateKey } = sodium.crypto_sign_keypair()
-  const publicKey_base64 = sodium.to_base64(publicKey, base64_variants.ORIGINAL);
-  const privateKey_base64 = sodium.to_base64(privateKey, base64_variants.ORIGINAL);
 
-  return {
-    privateKey: privateKey_base64,
-    publicKey: publicKey_base64
-  }
-}
+router.post("/register", async function (req, res) {
 
-router.post("/register", async function (req, res, next) {
   const {
     email,
     department,
@@ -30,11 +18,7 @@ router.post("/register", async function (req, res, next) {
 
   const country = "IND";
   const domain = "dsep:scholarships";
-  const subscriberId = department.toLowerCase() + "." + organisation.toLowerCase() + "." + city.toLowerCase() + "." + process.env.BECKN_HOST_NAME;
-  const validFrom = new Date();
-
-  // add 30 days to current date
-  const validTo = new Date(validFrom.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const subscriberId = department.toLowerCase() + "." + organisation.toLowerCase() + "." + process.env.BECKN_HOST_NAME;
   try {
     // find if user already exists
     const user = await User.findOne({ subscriberId: subscriberId });
@@ -50,24 +34,11 @@ router.post("/register", async function (req, res, next) {
       city,
       domain,
       publicKey,
-      privateKey,
-      validFrom,
-      validTo,
+      privateKey
     });
 
     try {
-      const response = await axios.post(process.env.REGISTRY_ENDPOINT, {
-        subscriber_id: subscriberId,
-        country: country,
-        city: city,
-        domain: domain,
-        signing_public_key: publicKey,
-        encr_public_key: publicKey,
-        valid_from: validFrom,
-        valid_until: validTo,
-        nonce: "test-random-developer"
-      });
-      console.log(response.data);
+      await createBPP(subscriberId, publicKey);
     }
     catch (err) {
       console.log("Axios Request ERROR", err);

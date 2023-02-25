@@ -9,8 +9,8 @@ router.post('/confirm', bap.confirm)
 router.post('/select', bap.select)
 router.post('/status', bap.status)
 
-router.post('/user-enrollment-status', bap.userEnrollmentStatus)
-router.get('/enrolled-sessions', bap.enrolledSessions)
+// router.post('/user-enrollment-status', bap.userEnrollmentStatus)
+// router.get('/enrolled-sessions', bap.enrolledSessions)
 
 // router.use(authVerifier)
 router.post('/on_search', bap.onSearch)
