@@ -22,13 +22,3 @@ exports.search = async (req, res) => {
 		res.status(400).send({ status: false })
 	}
 }
-
-// exports.onSearch = async (req, res) => {
-//     console.log("SOCKET SENDING")
-// 	try {
-// 		io.emit('onSearch', req.body)
-// 	} catch (err) { 
-// 		console.log(err)
-//         // console.log(req)
-//     }
-// }

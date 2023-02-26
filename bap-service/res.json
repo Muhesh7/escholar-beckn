@@ -1,0 +1,71 @@
+{
+    "context": {
+        "domain": "dsep:scholarships",
+        "action": "on_confirm",
+        "bap_id": "becknbros.bap",
+        "bap_uri": "https://beckn.muhesh.studio/api/bap",
+        "bpp_id": "indresh-cse.bpp.beckn.captainirs.dev",
+        "bpp_uri": "https://indresh-cse.bpp.beckn.captainirs.dev/api/bpp",
+        "timestamp": "2023-02-26T12:35:43.060Z",
+        "ttl": "PT10M",
+        "version": "1.0.0",
+        "message_id": "c4e82b6f-95f5-4add-af0f-2934dc1b5b8b",
+        "transaction_id": "d11a1b06-a60a-4e5b-844a-1daf30f26618"
+    },
+    "responses": [
+        {
+            "context": {
+                "domain": "dsep:scholarships",
+                "action": "on_confirm",
+                "bap_id": "becknbros.bap",
+                "bap_uri": "https://beckn.muhesh.studio/api/bap",
+                "bpp_id": "indresh-cse.bpp.beckn.captainirs.dev",
+                "bpp_uri": "https://indresh-cse.bpp.beckn.captainirs.dev/api/bpp",
+                "timestamp": "2023-02-26T12:35:43.060Z",
+                "ttl": "PT10M",
+                "version": "1.0.0",
+                "message_id": "c4e82b6f-95f5-4add-af0f-2934dc1b5b8b",
+                "transaction_id": "d11a1b06-a60a-4e5b-844a-1daf30f26618"
+            },
+            "message": {
+                "order": {
+                    "id": "63fb521eac026046a496c440",
+                    "status": "ACTIVE",
+                    "type": "DEAFAULT",
+                    "provider": {
+                        "id": "indresh-cse.bpp.beckn.captainirs.dev",
+                        "descriptor": {
+                            "name": "Indresh Grant",
+                            "long_desc": "Indresh Grant"
+                        }
+                    },
+                    "rateable": false
+                },
+                "items": [
+                    {
+                        "id": "63fb3a6f14ca00292d7808b9",
+                        "descriptor": {
+                            "name": "Indresh Grant",
+                            "long_desc": "Indresh Grant"
+                        },
+                        "price": {
+                            "value": 1000,
+                            "currency": "INR"
+                        },
+                        "rateable": false,
+                        "xinput": {
+                            "required": true,
+                            "form": {
+                                "url": "[{\"id\":\"28bf4dfc-70d4-4d34-a296-5d39abbb0467\",\"element\":\"TextInput\",\"required\":true,\"label\":{\"blocks\":[{\"key\":\"5t4jo\",\"text\":\"Name\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}},\"value\":\"\"},{\"id\":\"a5970761-9372-4bd7-8ef3-4551ede17e28\",\"element\":\"NumberInput\",\"required\":true,\"label\":{\"blocks\":[{\"key\":\"dooa7\",\"text\":\"Amount U want\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}},\"value\":0}]",
+                                "mime_type": "application/json",
+                                "data": "{\"28bf4dfc-70d4-4d34-a296-5d39abbb0467\":\"as\",\"a5970761-9372-4bd7-8ef3-4551ede17e28\":\"1\"}",
+                                "submission_id": "63fb521eac026046a496c440"
+                            }
+                        },
+                        "tags": []
+                    }
+                ]
+            }
+        }
+    ]
+}

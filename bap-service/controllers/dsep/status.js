@@ -3,6 +3,8 @@ const requester = require('../../utils/requester')
 const { requestBodyGenerator } = require('../../utils/requestBodyGenerator')
 const { v4: uuidv4 } = require('uuid')
 
+// const { readCertificate } = require('../blockchain');
+
 exports.status = async (req, res) => {
 	try {
 		const transactionId = req.body.transaction_id
@@ -22,13 +24,3 @@ exports.status = async (req, res) => {
 	}
 }
 
-exports.onStatus = async (req, res) => {
-    console.log(JSON.stringify(req.body))
-	try {
-		// const transactionId = req.body.context.transaction_id
-		// const messageId = req.body.context.message_id
-		// await cacheSave(`${transactionId}:${messageId}:ON_STATUS`, req.body)
-		// await sendMessage(`${transactionId}:${messageId}`, transactionId + messageId)
-		// res.status(200).json({ status: true, message: 'BAP Received STATUS From BPP' })
-	} catch (err) {}
-}

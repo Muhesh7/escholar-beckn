@@ -19,10 +19,11 @@ exports.login = async (req, res, next) => {
 
 exports.user = async (req, res) => {
     try {
-        res.send({ name: req.user.name, email: req.user.email });
+        console.log(req.user)
+        return res.send({ name: req.user.name, email: req.user.email });
     } catch (err) {
         console.log(err);
-        res.status(500).send({ message: 'Error getting user' });
+        return res.status(500).send({ message: 'Error getting user' });
     }
 }
 

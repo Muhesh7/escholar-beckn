@@ -25,14 +25,3 @@ exports.select = async (req, res) => {
 		res.status(400).send({ status: false })
 	}
 }
-
-exports.onSelect = async (req, res) => {
-	try {
-		// console.log(JSON.stringify(req.body))
-		// const transactionId = req.body.context.transaction_id
-		// const messageId = req.body.context.message_id
-		// await cacheSave(`${transactionId}:${messageId}:ON_SELECT`, req.body)
-		// await sendMessage(`${transactionId}:${messageId}`, transactionId + messageId)
-		// res.status(200).json({ status: true, message: 'BAP SELECTION From BPP' })
-	} catch (err) {}
-}

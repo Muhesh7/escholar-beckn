@@ -41,10 +41,10 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }).then(() => {
     console.log("Error Connecting to mongo");
 });
 
-const { dsep, auth } = require("./routes")
+const { dsep, auth, blockchain } = require("./routes")
 
 app.use(cors({
-    origin: process.env.FRONTEND,
+    origin: [process.env.FRONTEND, "https://verify.ink"],
     credentials: true,
 }));
 
@@ -97,12 +97,20 @@ app.post('/bap/on_select', async function (req, res) {
         const message = req.body.responses[0].message
         const context = req.body.responses[0].context
         result = {
-            response : {
-                ...message,
-                context: context
+            data : {
+                form: {
+                    data: message.items[0].xinput.form.url,
+                    name: message.items[0].descriptor.name,
+                    id: message.items[0].id,
+                },
+                context: {
+                    ...context,
+                    provider: message.order.provider,
+                    items: message.items,
+                },
             }
         }
-        console.log(result)
+        console.log(JSON.stringify(result))
         io.emit("onSelect", result);
         res.send("done")
     } catch (e) {
@@ -128,11 +136,12 @@ app.post('/bap/on_init', async function (req, res) {
 })
 
 app.post('/bap/on_confirm', async function (req, res) {
+    console.log(JSON.stringify(req.body))
     try {
         var result = {}
-        const order = req.body.responses[0].order
         result = {
-            response : order
+            response : req.body.responses[0].message.order,
+            certificateId: req.body.responses[0].message.certificateId
         }
         console.log(result)
         io.emit("onConfirm", result);
@@ -146,7 +155,7 @@ app.post('/bap/on_confirm', async function (req, res) {
 app.post('/bap/on_status', async function (req, res) {
     try {
         var result = {}
-        const order = req.body.responses[0].order
+        const order = req.body.responses[0].message.order
         result = {
             response : order
         }
@@ -158,8 +167,29 @@ app.post('/bap/on_status', async function (req, res) {
         res.send("error")
     }
 })
+
 app.use('/bap', dsep)
 
 app.use('/auth', auth)
+
+app.use('/form', blockchain)
+
+var multer = require('multer')
+var upload = multer()
+var axios = require('axios');
+
+console.log("verif", process.env.VERIFICATION_ENDPOINT);
+
+app.post('/verify', upload.single('file'), async (req, res) => {
+    try {
+        const response = await axios.post(process.env.VERIFICATION_ENDPOINT, {
+            data: req.file.buffer.toString('base64'),
+        });
+        return res.status(200).send(response.data);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({message: 'Error verifying data'});
+    }
+});
 
 module.exports = { app, httpserver };

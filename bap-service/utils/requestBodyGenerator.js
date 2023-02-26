@@ -50,10 +50,12 @@ exports.requestBodyGenerator = (api, body, transactionId, messageId) => {
 	}  else if (api === 'bpp_confirm') {
 		requestBody.context.action = 'confirm'
 		requestBody.message = {
+            email: body.email,
+            fileName: body.fileName,
 			order: {
               provider: body.provider,
               fulfillments: body.fulfillments,
-              items: body.items
+              items: body.items,
 			},
 		}
 	} else if (api === 'bpp_status') {

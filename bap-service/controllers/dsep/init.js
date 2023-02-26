@@ -24,15 +24,3 @@ exports.init = async (req, res) => {
 	}
 }
 
-exports.onInit = async (req, res) => {
-    console.log(JSON.stringify(req.body))
-	try {
-		// const transactionId = req.body.context.transaction_id
-		// const messageId = req.body.context.message_id
-		// await cacheSave(`${transactionId}:${messageId}:ON_INIT`, req.body)
-		// await sendMessage(`${transactionId}:${messageId}`, transactionId + messageId)
-		// res.status(200).json({ status: true, message: 'BAP Received INIT From BPP' })
-	} catch (err) {
-		console.log(err)
-	}
-}
