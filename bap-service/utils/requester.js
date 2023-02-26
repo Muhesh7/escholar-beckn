@@ -9,7 +9,7 @@ exports.postRequest = async (url, headers, body, { shouldSign }) => {
 	return new Promise((resolve, reject) => {
 		axios({ method: 'post', url, data: body, headers, timeout: 3000 })
 			.then((res) => {
-				console.log(res.data)
+				// console.log(res.data)
 				resolve(res)
 			})
 			.catch((error) => {

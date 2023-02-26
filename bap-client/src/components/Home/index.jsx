@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   createStyles, Title, Center
 } from '@mantine/core';
 import '@lottiefiles/lottie-player';
 import { useAuth } from '../../hooks/useAuth';
+import { socket } from '../../socket';
+import { useNavigate } from 'react-router-dom';
+
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -49,6 +52,29 @@ export function Homepage() {
   const { classes } = useStyles();
 
   const { user } = useAuth();
+
+  const { navigate } = useNavigate();
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('connected to server');
+    });
+    socket.on('disconnect', () => {
+      console.log('disconnected from server');
+    });
+
+
+    socket.on('onConfirm', (data) => {
+      console.log(data);
+      navigate('viewCertificate/' + data);
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('custom event');
+    };
+  }, []);
 
   return (
     <div className={classes.root}>

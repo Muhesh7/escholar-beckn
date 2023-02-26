@@ -8,14 +8,15 @@ exports.select = async (req, res) => {
 	try {
 		const transactionId = req.body.transaction_id
 		const messageId = uuidv4()
-		const bppUri = req.body.bppUri
-		const providerId = req.body.providerId
-		const itemIds = req.body.itemIds
-        const fulfillmentIds = req.body.fulfillmentIds
+		const bppUri = req.body.bpp_uri
+		const providerId = req.body.provider_id
+		const itemId = req.body.item_id
+        const fulfillmentIds = req.body.fulfillment_ids || []
+        console.log(req.body)
 		await requester.postRequest(
 			bppUri + '/select',
 			{},
-			requestBodyGenerator('bpp_select', { providerId, fulfillmentIds, itemIds }, transactionId, messageId),
+			requestBodyGenerator('bpp_select', { providerId, fulfillmentIds, itemId }, transactionId, messageId),
 			{ shouldSign: true }
 		)
 		res.send("done");

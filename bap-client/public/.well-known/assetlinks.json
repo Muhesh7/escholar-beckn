@@ -3,6 +3,6 @@
     "target" : { 
         "namespace": "android_app", 
         "package_name": "io.beckn.e_scholar",
-        "sha256_cert_fingerprints": ["E0:03:8C:39:7C:02:36:81:1E:D5:69:F8:79:D2:5E:5D:C4:40:DC:FC:B7:90:7A:2B:02:E9:8B:83:9C:4E:04:9C"] 
+        "sha256_cert_fingerprints": ["64:B5:E0:C6:F3:E6:C5:D9:AD:10:0D:7E:FD:F4:E2:5A:45:5F:10:80:44:E8:55:03:EB:F2:6D:E7:CE:8E:EF:AC"] 
     }
 }]

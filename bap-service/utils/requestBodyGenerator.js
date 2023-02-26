@@ -44,7 +44,7 @@ exports.requestBodyGenerator = (api, body, transactionId, messageId) => {
                     id: body.providerId
                 },
                 fulfillments: body.fulfillmentIds,
-                items: body.items
+                items: [ {id: body.itemId} ]
 			},
 		}
 	}  else if (api === 'bpp_confirm') {

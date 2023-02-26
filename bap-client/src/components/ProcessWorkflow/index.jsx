@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Container,
   Grid,
   createStyles,
@@ -10,18 +9,17 @@ import {
   Text,
   Anchor,
 } from "@mantine/core";
-import { IconCheck, IconTrash, IconPlus, IconX } from "@tabler/icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { IconCheck, IconPlus, IconX } from "@tabler/icons";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { showNotification } from "@mantine/notifications";
 import { useLoading } from "../../hooks/useLoading";
 import {
-  approveDocRequest,
   fileGetRequest,
   getDocsRequestStatus,
 } from "../../utils/requests";
 import { useAuth } from "../../hooks/useAuth";
-import {EXPLORER_URL} from "../../config";
+import { EXPLORER_URL } from "../../config";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -34,39 +32,7 @@ export function ProcessWorkflow({ viewOnly }) {
   const { docid } = useParams();
   const { request } = useLoading();
   const [data, setData] = useState();
-  const navigate = useNavigate();
   const { user } = useAuth();
-
-  const sendProcess = async (status) => {
-    try {
-      const response = await approveDocRequest(docid, status);
-      if (response.status === 200) {
-        showNotification({
-          color: "green",
-          title: "Success",
-          message: `Certificate has been ${status}${
-            status === "approve" ? "d" : "ed"
-          }`,
-        });
-        navigate("/certificatesForApproval");
-      } else {
-        showNotification({
-          color: "red",
-          title: "Error",
-          message: response.data,
-        });
-      }
-    } catch (error) {
-      showNotification({
-        color: "red",
-        title: "Error",
-        message:
-          error.response.data && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
 
   const getDocStatus = async () => {
     try {
@@ -101,29 +67,6 @@ export function ProcessWorkflow({ viewOnly }) {
       <Grid gutter="md">
         <Grid.Col lg={8} orderlg={2}>
           <Container my={50}>
-            {!viewOnly && (
-              <Grid grow my={10}>
-                <Grid.Col span={6}>
-                  <Button
-                    style={{ width: "100%" }}
-                    leftIcon={<IconCheck />}
-                    onClick={() => sendProcess("approve")}
-                  >
-                    Approve
-                  </Button>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Button
-                    color="red"
-                    style={{ width: "100%" }}
-                    leftIcon={<IconTrash />}
-                    onClick={() => sendProcess("reject")}
-                  >
-                    Reject
-                  </Button>
-                </Grid.Col>
-              </Grid>
-            )}
             <iframe
               allowFullScreen
               title="iframe"

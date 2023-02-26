@@ -4,11 +4,9 @@ import {
 } from '@mantine/core';
 import React, { useState, useEffect, useRef } from 'react';
 import { FormGenerator } from 'react-forms-builder-135';
-import { useParams } from 'react-router-dom';
-import { getFormRequest } from '../../utils/requests';
-import { useLoading } from '../../hooks/useLoading';
 import { createPDF } from '../../utils/pdf';
 import { useAuth } from '../../hooks/useAuth';
+import { useLocation } from 'react-router-dom';
 
 const styles = createStyles((theme) => ({
   root: {
@@ -37,11 +35,10 @@ const styles = createStyles((theme) => ({
 }));
 
 export function FormViewer() {
-  const { formId } = useParams();
   const [formData, setFormData] = useState({});
-  const { request } = useLoading();
   const [formName, setFormName] = useState('');
   const [formResponseData, setFormResponseData] = useState('');
+  const [formId, setFormId] = useState('');
   const [opened, setOpened] = useState(false);
   const { classes } = styles();
   const [fileName, setFileName] = useState('');
@@ -49,14 +46,12 @@ export function FormViewer() {
 
   const getForm = async () => {
     try {
-      const response = await request(() => getFormRequest(formId));
+      const response = location.state;
+      console.log("responses",response.data.form);
       if (response.data && response.data.form) {
         setFormData(JSON.parse(response.data.form.data));
         setFormName(response.data.form.name);
-
-        if (response.data.saved_response && response.data.saved_response.data) {
-          setFormResponseData(JSON.parse(response.data.saved_response.data));
-        }
+        setFormId(response.data.form.id);
       } else {
         showNotification({
           color: 'red',
@@ -77,13 +72,16 @@ export function FormViewer() {
 
   const theme = useMantineTheme();
 
+  const location = useLocation();
+
   useEffect(() => {
     getForm();
-  }, []);
+  }, [location]);
+
 
   const handleDrawerClose = async () => {
     // await request(() => saveFormResponseRequest(formId, formResponseData));
-    createPDF(ref.current, fileName, user.email, formId, formResponseData);
+    createPDF(ref.current, fileName, user.email, formId, formResponseData, location.state.data.context);
     setFileName('');
     setOpened(false);
   };
