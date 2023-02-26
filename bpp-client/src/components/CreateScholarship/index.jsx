@@ -39,8 +39,8 @@ export function FormPart() {
 
   const form = useForm({
     initialValues: {
-      department: "",
-      organisation: "",
+      description: "",
+      price: 0,
       city: "",
       email: "",
     },

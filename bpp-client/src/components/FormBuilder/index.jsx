@@ -166,12 +166,12 @@ export function Formbuilder() {
   return (
     <Container my={50}>
       <Center><Title mb={30}>{t('createEditCertificate')}</Title></Center>
-      <TextInput label="Certificate Name" required value={name} onChange={(event) => setName(event.currentTarget.value)} />
+      <TextInput label="Certificate/Scholarship Form Name" required value={name} onChange={(event) => setName(event.currentTarget.value)} />
       <Select
         style={{ marginTop: 20, zIndex: 2 }}
         data={workflowData}
-        placeholder="Select a workflow"
-        label="Workflow"
+        placeholder="Select a Scholarship/Grant"
+        label="Scholarship or Certificate"
         classNames={classes}
         onChange={(opted) => 
           setWorkflow(opted)

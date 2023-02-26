@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   createStyles, Header, Container, Group, UnstyledButton, Text, Center,
-  useMantineColorScheme, Burger, Paper, MediaQuery, useMantineTheme, Image, Title
+  useMantineColorScheme, Burger, Paper, MediaQuery, useMantineTheme, Image,
 } from '@mantine/core';
 import { IconMoon, IconSun } from '@tabler/icons';
 import PropTypes from 'prop-types';

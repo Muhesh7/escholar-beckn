@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Container, Paper, Title, Center, Button,
   createStyles, TextInput, Select,
-  Modal, useMantineTheme
+  Modal, useMantineTheme, Textarea, NumberInput
 } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons';
@@ -53,6 +53,8 @@ export function Workflow() {
   const [status, setStatus] = useState('');
   const [designation, setDesignation] = useState('');
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
   const [roles, setRoles] = useState();
 
   const { classes } = styles();
@@ -188,10 +190,28 @@ export function Workflow() {
           </Center>
           <TextInput
             className={classes.input}
-            label="Name of the workflow"
-            placeholder="Enter the name of the workflow"
+            label="Name of the scholarship/grant"
+            placeholder="Enter the name of the scholarship/grant"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            m={10}
+            required
+          />
+          <Textarea
+            className={classes.input}
+            label="Description"
+            placeholder="Enter the description of the scholarship/grant"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            m={10}
+            required
+          />
+          <NumberInput
+            className={classes.input}
+            label="Amount"
+            placeholder="Enter the amount of the scholarship/grant"
+            value={amount}
+            onChange={(e) => setAmount(e)}
             m={10}
             required
           />
@@ -210,10 +230,14 @@ export function Workflow() {
             color="indigo"
             onClick={() => (id ? updateWorkflow({
               name,
-              state
+              state,
+              description,
+              amount
             }) : createWorkflow({
               name,
-              state
+              state,
+              description,
+              amount
             }))}
           >
             {t('submitWorkflow')}

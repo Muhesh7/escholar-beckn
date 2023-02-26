@@ -20,8 +20,8 @@ import {
   fileGetRequest,
   getDocsRequestStatus,
 } from "../../utils/requests";
-import { useAuth } from "../../hooks/useAuth";
-import {EXPLORER_URL} from "../../config";
+// import { useAuth } from "../../hooks/useAuth";
+import { EXPLORER_URL } from "../../config";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -35,7 +35,7 @@ export function ProcessWorkflow({ viewOnly }) {
   const { request } = useLoading();
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const sendProcess = async (status) => {
     try {
@@ -44,9 +44,8 @@ export function ProcessWorkflow({ viewOnly }) {
         showNotification({
           color: "green",
           title: "Success",
-          message: `Certificate has been ${status}${
-            status === "approve" ? "d" : "ed"
-          }`,
+          message: `Certificate has been ${status}${status === "approve" ? "d" : "ed"
+            }`,
         });
         navigate("/certificatesForApproval");
       } else {
@@ -132,8 +131,8 @@ export function ProcessWorkflow({ viewOnly }) {
                 minHeight: "500px",
               }}
               src={
-                "https://verify.ink/viewer?url=" +
-                fileGetRequest(docid, user.email, user.role) +
+                "https://verify.ink/viewer?url=https://" +
+                window.location.hostname + fileGetRequest(docid, window.location.hostname + "@gmail.com", "Supervisor") +
                 "&show-signature-if-present=true&notify-if-not-signed=false&sign=false&download=true&app-host=https://app.hancock.ink&api-host=https://api.hancock.ink"
               }
             />
