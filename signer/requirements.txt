@@ -1,0 +1,3 @@
+ipfs-api
+Flask
+pyHanko[pkcs11,image-support,opentype]
