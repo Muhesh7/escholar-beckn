@@ -13,6 +13,7 @@ const createNetworkParticipant = async (participantID) => {
             "method": "POST"
         }
     )
+    console.log(res.url)
     if (res.url.includes("show")) {
         return res.url.split("/").pop()
     } else {

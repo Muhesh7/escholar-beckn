@@ -4,7 +4,8 @@ const passport = require("passport");
 var User = require("../models/User");
 const {createKeyPair} = require("../utils/keyPair");
 const { createBPP } = require("../utils/registryRequests");
-
+const { generateCertificate } = require("../utils/generateClientCert");
+const mailProducer = require("../utils/producer");
 
 router.post("/register", async function (req, res) {
 
@@ -39,6 +40,14 @@ router.post("/register", async function (req, res) {
       console.log("Axios Request ERROR", err);
       throw err;
     }
+    // const attachments = {
+    //   officer: generateCertificate(email, "moderator."+subscriberId),
+    //   supervisor: generateCertificate(email, "supervisor."+subscriberId),
+    // }
+    // mailProducer(
+    //   email,
+    //   attachments
+    // );
     await newUser.save();
     res.status(201).json({ message: "BPP created" });
 

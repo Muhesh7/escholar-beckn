@@ -13,12 +13,9 @@ const UserSchema = new mongoose.Schema({
     country: {
         type: String,
         required: true,
+        default: "IND"
     },
     city: {
-        type: String,
-        required: true,
-    },
-    domain: {
         type: String,
         required: true,
     },
