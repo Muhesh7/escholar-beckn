@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  registry:
+    image: captainirs/beckn-registry:latest
+    build: ./registry
+    container_name: registry
+    ports:
+      - "4030:443"
+    volumes:
+      - ./registry/overrideProperties:/app/overrideProperties
+      - ./database/registry:/database
+  
+  gateway:
+    image: captainirs/beckn-gateway:latest
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "3030:443"
+    volumes:
+      - ./gateway/overrideProperties:/app/overrideProperties
+      - ./database/gateway:/database

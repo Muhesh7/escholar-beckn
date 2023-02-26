@@ -20,16 +20,11 @@ RUN git clone https://github.com/venkatramanm/beckn-gateway && \
     cd beckn-gateway && \
     mvn clean install -DskipTests && \
     cd ..
-RUN git clone https://github.com/beckn-on-succinct/beckn-registry && \
-    cd beckn-registry && \
-    mvn clean install -DskipTests && \
-    cd ..
-COPY ./overrideProperties /overrideProperties
-COPY ./pom.xml /pom.xml
+COPY pom.xml /pom.xml
 RUN git clone https://github.com/beckn-on-succinct/beckn-gateway-app && \
     cd beckn-gateway-app && \
-    cp -r /overrideProperties . && \
-    cp /pom.xml . && \
+    cp -r ./overrideProperties.sample ./overrideProperties && \
+    cp /pom.xml ./pom.xml && \
     mvn clean -DskipTests package
 
 FROM openjdk:11-jre-slim
