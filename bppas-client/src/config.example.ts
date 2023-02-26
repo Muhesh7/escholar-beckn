@@ -1,1 +1,0 @@
-export const REGISTER_URL = 'http://localhost:5000/auth/register';

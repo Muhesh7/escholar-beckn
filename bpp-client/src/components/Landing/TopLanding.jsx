@@ -93,8 +93,8 @@ export function TopLanding() {
               E-Scholar is a certificate provider that allows you to create and manage your own scholarships.
             </Text>
             <Group mt={30}>
-              <Button radius="xl" size="md" className={classes.control} onClick={() => navigate('/auth')}>
-                Login to get started
+              <Button radius="xl" size="md" className={classes.control} onClick={() => navigate('/create')}>
+                Create a Scholarship Provider Account
               </Button>
             </Group>
           </div>

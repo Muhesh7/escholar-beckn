@@ -3,8 +3,8 @@ import {
     AppShell,
     useMantineTheme, ScrollArea
 } from '@mantine/core';
-import { HeaderNav } from './components/Header';
-import { FormPart } from './components/CreateForm';
+import { HeaderNav } from '../components/Header';
+import { FormPart } from '../components/CreateForm';
 
 export function CreatePageContainer() {
     const theme = useMantineTheme();

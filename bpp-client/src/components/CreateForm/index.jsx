@@ -10,7 +10,10 @@ import {
 import { useForm } from "@mantine/form";
 import axios from "axios";
 import { showNotification } from "@mantine/notifications";
-import { REGISTER_URL } from "../../config";
+import { REGISTER_URL } from "../../utils/urls";
+import { BECKN_HOST_URL } from "../../config";
+import { registerRequest } from "../../utils/requests";
+import { useLoading } from "../../hooks/useLoading";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -45,55 +48,57 @@ export function FormPart() {
     },
 
     validate: {
-      department: (value: string) => {
+      department: (value) => {
         if (!value) return "Department is required";
       },
-      organisation: (value: string) => {
+      organisation: (value) => {
         if (!value) return "Organisation is required";
       },
-      city: (value: string) => {
+      city: (value) => {
         if (!value) return "City is required";
       },
-      email: (value: string) => {
+      email: (value) => {
         if (!value) return "Email is required";
         if (!value.includes("@")) return "Email is not valid";
       },
     },
   });
 
-  const handleSubmit = (values: any) => {
-    axios
-      .post(REGISTER_URL, values)
-      .then((res) => {
-        if (res.status === 201) {
-          showNotification({
-            title: "Success",
-            message: "Provider created successfully",
-            color: "green",
-          });
-        } else if (res.status === 409) {
-          showNotification({
-            title: "Error",
-            message: "Provider already exists",
-            color: "red",
-          });
-        }
-      })
-      .catch((err) => {
-        if (err.response) {
-          showNotification({
-            title: "Error",
-            message: err.response.data.message,
-            color: "red",
-          });
-        } else {
-          showNotification({
-            title: "Error",
-            message: "Provider creation failed",
-            color: "red",
-          });
-        }
-      });
+  const { request } = useLoading()
+
+  const handleSubmit = (values) => {
+    try {
+      const res = request(() => registerRequest(values))
+
+      if (res.status === 201) {
+        showNotification({
+          title: "Success",
+          message: "Provider created successfully",
+          color: "green",
+        });
+        window.location.href = values.department + "-" + values.organisation + BECKN_HOST_URL;
+      } else if (res.status === 409) {
+        showNotification({
+          title: "Error",
+          message: "Provider already exists",
+          color: "red",
+        });
+      }
+    } catch (err) {
+      if (err.response) {
+        showNotification({
+          title: "Error",
+          message: err.response.data.message,
+          color: "red",
+        });
+      } else {
+        showNotification({
+          title: "Error",
+          message: "Provider creation failed",
+          color: "red",
+        });
+      }
+    }
   };
 
   return (
@@ -101,7 +106,7 @@ export function FormPart() {
       <Title align="center" m={20}>
         Scholarship Provider Platform
       </Title>
-      <form onSubmit={form.onSubmit((values: any) => handleSubmit(values))}>
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
           label="Department"
           placeholder="Name of the department"
