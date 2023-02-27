@@ -2,9 +2,8 @@
 
 ___
 
-## Tech-Stack
-
-![img](https://imgur.com/OgJemSV.png)
+## Abstract of the project
+The main objective of this project is to allow users to seamlessly create BPPs to publish scholarships (BPP as a service). A BAP service unifies all this scholarship information and presents it to the user. The entire scholarship process is tracked in blockchain.
 
 ## Features
 * Client Cert Authentication
@@ -19,6 +18,73 @@ ___
 * Private IPFS
 * Multi-Compatibility
 * Proxy Re-encryption
+
+## Workflow:
+
+![Architecture](https://imgur.com/CMd4tQN.jpeg)
+* **/search**
+     * Forwards the search for scholarships from [BAP-Client](./bap-client) to [BG](https://gateway.becknprotocol.io/bg) 
+     * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
+ * **/on_search**
+    * [BPP](./bpp-service/) which recieved the **/search** broadcast from [BG](https://gateway.becknprotocol.io/bg) sends relevant response as per [dsep:scholarships]() specifications  via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
+    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
+
+* **/select**
+    * Forwards the selected scholarships from [BAP-Client](./bap-client) to [BG](https://gateway.becknprotocol.io/bg) 
+    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
+* **/on_select**
+    * [BPP](./bpp-service/) which recieved the **/select**  request from [BG](https://gateway.becknprotocol.io/bg) sends relevant scholarship details as per [dsep:scholarships]() specifications via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
+    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) 
+        recieves and renders it for user.
+
+* **/init**
+    * Forwards the scholarship Application initiation from [BAP-Client](./bap-client) to [BG](https://gateway.becknprotocol.io/bg) 
+    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
+
+* **/on_init**
+    * [BPP](./bpp-service/) which recieved the **/init** request from [BG](https://gateway.becknprotocol.io/bg) sends acknowledges the  initiation and responds via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
+    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
+
+* **/confirm**
+    * Stores the Details PDF document generated via [BAP-Client](./bap-client) input in [IPFS](./ipfs-config/) and forwards the IPFS-HASH-KEY to [BG](https://gateway.becknprotocol.io/bg) 
+    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
+        
+* **/on_confirm**
+    * [BPP](./bpp-service/) which recieved the request **/confirm** from [BG](./beckn-network/), retrives the Document with IPFS HASH and stores it in [Blockchain](./blockchain/) and  sends applicationID as per [dsep:scholarships]() specifications via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
+    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
+        
+* **/status**
+    * Forwards the applicationID sent via [BAP-Client](./bap-client) input to [BG](https://gateway.becknprotocol.io/bg) 
+    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
+* **/on_status**
+    * [BPP](./bpp-service/) which recieved the **/status**  request from [BG](./beckn-network/), fetches the application details based on applicationID and  sends application status as per [dsep:scholarships]() specifications via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
+    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
+
+**Refer to [Services](./ProductDocs.md#services) for detailed flow of the application with screenshots**
+
+## Tech-Stack
+
+![img](https://imgur.com/OgJemSV.png)
+
+## Architecture Diagram
+
+![Architecture](https://imgur.com/CMd4tQN.jpeg)
+
+Refer to [Architecture](./ProductDocs.md#workflow) for detailed architecture of the application.
+
+## Open-source and Digital Public Goods leveraged/used
+* [React](https://reactjs.org/) - Open Source Frontend Framework.
+* [NodeJS](https://nodejs.org/en/) - Open Source Backend Framework.
+* [ExpressJS](https://expressjs.com/) - Open Source Framework used for developing APIs.
+* [MongoDB](https://www.mongodb.com/) - Open Source Database.
+* [Hyperledger](https://www.hyperledger.org/) - Open Source Private Blockchain for recording transactions.
+* [IPFS](https://ipfs.io/) - Open Source Decentralized Storage for storing documents.
+* [Docker](https://www.docker.com/) - Open Source Containerization Platform for deploying the applications.
+* [Kafka](https://kafka.apache.org/) - Open Source Distributed Streaming Platform for handling asynchronous communication. It is used to handle large volumes of mailing.
+* [Python](https://www.python.org/) - Open Source Programming Language used for developing several utility services (such as signer) and scripts.
+* [Mantine UI](https://mantine.dev/) - Open Source React UI Library for styling the application.
+* [Beckn Protocol](https://beckn.org/) - Open Source Protocol for enabling B2B commerce and has been extended for scholarships using dsep specs.
+* [Andriod SDK](https://developer.android.com/) - Open source SDK for developing Android Applications. BAP Trusted Web Application has been built using this. 
 
 
 ## Services
@@ -56,7 +122,7 @@ ___
 
   ![mail](https://imgur.com/BIbIQ2Z.png)
 
-* Visit your BPP with Url \<Department>.\<Organisation>.portal.beckn.muhesh.studio
+* Visit your BPP with Url \<Department>-\<Organisation>.portal.beckn.muhesh.studio
 
 * Preview of client-certificate-authentication selection prompt
 
@@ -191,45 +257,3 @@ ___
 **HyperLedger**
 * Stores IPFS in blockchain.
  ![ledger](https://imgur.com/f60eZ6y.png)
-
-
-## Workflow:
-
-![workflow](https://imgur.com/CMd4tQN.jpeg)
-* **/search**
-     * Forwards the search for scholarships from [BAP-Client](./bap-client) to [BG](https://gateway.becknprotocol.io/bg) 
-     * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
- * **/on_search**
-    * [BPP](./bpp-service/) which recieved the **/search** broadcast from [BG](https://gateway.becknprotocol.io/bg) sends relevant response as per [dsep:scholarships]() specifications  via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
-    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
-
-* **/select**
-    * Forwards the selected scholarships from [BAP-Client](./bap-client) to [BG](https://gateway.becknprotocol.io/bg) 
-    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
-* **/on_select**
-    * [BPP](./bpp-service/) which recieved the **/select**  request from [BG](https://gateway.becknprotocol.io/bg) sends relevant scholarship details as per [dsep:scholarships]() specifications via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
-    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) 
-        recieves and renders it for user.
-
-* **/init**
-    * Forwards the scholarship Application initiation from [BAP-Client](./bap-client) to [BG](https://gateway.becknprotocol.io/bg) 
-    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
-
-* **/on_init**
-    * [BPP](./bpp-service/) which recieved the **/init** request from [BG](https://gateway.becknprotocol.io/bg) sends acknowledges the  initiation and responds via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
-    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
-
-* **/confirm**
-    * Stores the Details PDF document generated via [BAP-Client](./bap-client) input in [IPFS](./ipfs-config/) and forwards the IPFS-HASH-KEY to [BG](https://gateway.becknprotocol.io/bg) 
-    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
-        
-* **/on_confirm**
-    * [BPP](./bpp-service/) which recieved the request **/confirm** from [BG](./beckn-network/), retrives the Document with IPFS HASH and stores it in [Blockchain](./blockchain/) and  sends applicationID as per [dsep:scholarships]() specifications via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
-    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.
-        
-* **/status**
-    * Forwards the applicationID sent via [BAP-Client](./bap-client) input to [BG](https://gateway.becknprotocol.io/bg) 
-    * Receives ACK from [BG](https://gateway.becknprotocol.io/bg)
-* **/on_status**
-    * [BPP](./bpp-service/) which recieved the **/status**  request from [BG](./beckn-network/), fetches the application details based on applicationID and  sends application status as per [dsep:scholarships]() specifications via callback to [BAP](./bap-service) which then emits the the incoming req body to socket.io.
-    * [BAP-client](./bap-client/) which is in socket.io connection with [BAP-service](./bap-service) recieves and renders it for user.

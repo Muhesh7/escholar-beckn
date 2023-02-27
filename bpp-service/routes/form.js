@@ -315,6 +315,7 @@ router.patch('/response/:id/approve', async (req, res) => {
 			isFinal = true
 		}
 		const response = await axios.post(process.env.SIGNER_ENDPOINT, {
+			email: role+'-'+email,
 			cert: blockChainUser.credentials.certificate,
 			key: blockChainUser.credentials.privateKey,
 			cid: currentHash,

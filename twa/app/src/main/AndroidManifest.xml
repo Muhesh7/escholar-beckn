@@ -25,7 +25,7 @@
             <!-- Edit android:value to change the url opened by the Trusted Web Activity -->
             <meta-data
                 android:name="android.support.customtabs.trusted.DEFAULT_URL"
-                android:value="https://escholar.captainirs.dev" />
+                android:value="https://beckn.muhesh.studio" />
 
             <meta-data android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
                 android:resource="@drawable/splash"/>
@@ -47,7 +47,7 @@
 
             <!--
               This intent-filter allows the Trusted Web Activity to handle Intents to open
-              escholar.captainirs.dev
+              beckn.muhesh.studio
             -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -57,7 +57,7 @@
                 <!-- Edit android:host to handle links to the target URL-->
                 <data
                     android:scheme="https"
-                    android:host="escholar.captainirs.dev"/>
+                    android:host="beckn.muhesh.studio"/>
             </intent-filter>
         </activity>
         <provider

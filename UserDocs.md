@@ -27,7 +27,7 @@ ___
 
   ![mail](https://imgur.com/BIbIQ2Z.png)
 
-* Visit your BPP with Url \<Department>.\<Organisation>.portal.beckn.muhesh.studio
+* Visit your BPP with Url \<Department>-\<Organisation>.portal.beckn.muhesh.studio
 
 * Preview of client-certificate-authentication selection prompt
 
