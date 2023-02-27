@@ -6,5 +6,8 @@ export class State {
     public status: string;
 
     @Property()
-    public designation: 'HoD' | 'Doctor' | 'Patient';
+    public domain: string;
+
+    @Property()
+    public designation: 'Supervisor' | 'Officer' | 'Student';
 }

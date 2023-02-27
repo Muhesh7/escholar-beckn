@@ -1,5 +1,5 @@
 {
-	"name": "mentoring-bpp-service",
+	"name": "bpp-service",
 	"version": "1.0.0",
 	"description": "Beckn Bpp Service",
 	"main": "app.js",

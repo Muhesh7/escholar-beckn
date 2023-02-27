@@ -68,6 +68,6 @@ app.get('/scripts/:script', (req, res) => {
     res.send(result);
 })
 
-app.listen(3005, () => {
-	console.log(`App running on port: 3005`);
+app.listen(3009, () => {
+	console.log(`App running on port: 3009`);
 });

@@ -84,7 +84,7 @@
                 currentScript = script;
                 document.getElementById(`${script}Status`).style.display = 'inline-block';
                 oReq.addEventListener("load", reqListener);
-                oReq.open("GET", "http://localhost:3005/scripts/" + script);
+                oReq.open("GET", "https://explorer.escholar.captainirs.dev/scripts/" + script);
                 oReq.send();
             }
           </script>

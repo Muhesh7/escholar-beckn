@@ -32,7 +32,7 @@ export class ScholarshipContract extends Contract {
     public async createScholarship(ctx: Context, requester: User, states: State[], hash: string, name: string): Promise<number> {
         console.log(`Creating scholarship with requester ${JSON.stringify(requester)} and states ${JSON.stringify(states)}`);
         const scholarship: Scholarship = new Scholarship();
-        const createdState: State = { status: 'Created', designation: requester.role };
+        const createdState: State = { status: 'Created', domain: requester.domain, designation: requester.role };
         scholarship.requester = requester;
         scholarship.hash = hash;
         scholarship.pendingStates = states;
@@ -87,6 +87,9 @@ export class ScholarshipContract extends Contract {
         if (scholarship.nextState.designation !== approver.role) {
             throw new Error(`The user ${approver.email} is not authorized to approve the scholarship ${scholarshipId}`);
         }
+        if (!scholarship.nextState.domain.includes(approver.domain)) {
+            throw new Error(`The user ${approver.email} is not authorized to approve the scholarship ${scholarshipId}`);
+        }
         scholarship.completedStates.push(scholarship.nextState);
         scholarship.pendingStates.shift();
         if (scholarship.pendingStates.length > 0) {
@@ -122,7 +125,10 @@ export class ScholarshipContract extends Contract {
         if (scholarship.nextState.designation !== rejector.role) {
             throw new Error(`The user ${rejector.email} is not authorized to reject the scholarship ${scholarshipId}`);
         }
-        const rejectedState: State = { status: 'Rejected', designation: rejector.role };
+        if (!scholarship.nextState.domain.includes(rejector.domain)) {
+            throw new Error(`The user ${rejector.email} is not authorized to reject the scholarship ${scholarshipId}`);
+        }
+        const rejectedState: State = { status: 'Rejected', domain: rejector.domain, designation: rejector.role };
         scholarship.completedStates.push(rejectedState);
         scholarship.nextState = null;
         scholarship.currentStatus = 'Rejected';
@@ -163,7 +169,8 @@ export class ScholarshipContract extends Contract {
         const query = {
             selector: {
                 nextState: {
-                    designation: approver.role
+                    designation: approver.role,
+                    domain: approver.domain
                 }
             }
         };

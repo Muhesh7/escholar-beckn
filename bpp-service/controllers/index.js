@@ -110,8 +110,8 @@ exports.create = async (req, res) => {
 		}
 
 		const attachments = {
-			officer: await generateCertificate(email, 'officer@' + subscriberId),
-			supervisor: await generateCertificate(email, 'supervisor@' + subscriberId),
+			officer: await generateCertificate('Officer@' + subscriberId ,email),
+			supervisor: await generateCertificate( 'Supervisor@' + subscriberId, email),
 		}
 		mailProducer(
 			email,

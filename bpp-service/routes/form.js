@@ -130,10 +130,8 @@ router.get('/response/file/:id/:email/:role', async (req, res) => {
 ///
 router.get('/response/approved', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	const requester = { email, role }
 	try {
 		const requesterCertificates = JSON.parse(await queryScholarshipsOfRequester(requester))
@@ -147,10 +145,8 @@ router.get('/response/approved', async (req, res) => {
 
 router.get('/response/rejected', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	const requester = { email, role }
 	try {
 		const requesterCertificates = JSON.parse(await queryScholarshipsOfRequester(requester))
@@ -164,10 +160,8 @@ router.get('/response/rejected', async (req, res) => {
 
 router.get('/response/processing', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	const requester = { email, role }
 	try {
 		const requesterCertificates = JSON.parse(await queryScholarshipsOfRequester(requester))
@@ -181,10 +175,8 @@ router.get('/response/processing', async (req, res) => {
 
 router.get('/response/toapprove', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	if (role === 'Patient') return res.status(401).send({ message: 'Unauthorized' })
 	const approver = { email, role }
 	try {
@@ -200,10 +192,8 @@ router.get('/response/toapprove', async (req, res) => {
 
 router.get('/response/doc_status/:id', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	const user = { email, role }
 	try {
 		const requesterCertificates = role === 'Patient' ? JSON.parse(await queryScholarshipsOfRequester(user)) : JSON.parse(await queryScholarshipsOfApprover(user))
@@ -218,10 +208,8 @@ router.get('/response/doc_status/:id', async (req, res) => {
 
 router.get('/response/landing', async (req, res) => {
 	// if(!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	if (role !== 'Patient') return res.status(401).send({ message: 'Unauthorized' })
 
 	try {
@@ -260,10 +248,8 @@ router.get('/response/landing', async (req, res) => {
 
 router.get('/all', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	try {
 		let forms = await Form.find({})
 		if (role === 'Patient') {
@@ -285,10 +271,11 @@ router.get('/all', async (req, res) => {
 
 router.patch('/response/:id/approve', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
+
+	console.log('Approving certificate with id: ' + req.params.id)
+	console.log('Approver: ' + email + ' ' + role)
 
 	let host = req.hostname.split('.')[0]
 	host = host + '.' + process.env.BECKN_HOST_NAME
@@ -328,7 +315,6 @@ router.patch('/response/:id/approve', async (req, res) => {
 			isFinal = true
 		}
 		const response = await axios.post(process.env.SIGNER_ENDPOINT, {
-			email: req.user.email,
 			cert: blockChainUser.credentials.certificate,
 			key: blockChainUser.credentials.privateKey,
 			cid: currentHash,
@@ -347,10 +333,8 @@ router.patch('/response/:id/approve', async (req, res) => {
 
 router.patch('/response/:id/reject', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	req.user = {}
-	req.user.email = req.hostname + '@gmail.com'
-	req.user.role = 'Supervisor'
-	const { email, role } = req.user
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 
 	let host = req.hostname.split('.')[0]
 	host = host + '.' + process.env.BECKN_HOST_NAME

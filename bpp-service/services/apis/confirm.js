@@ -58,6 +58,7 @@ exports.confirm = async (requestBody) => {
 		})
 
 		const submissionId = message.order.items[0].xinput.form.submission_id
+		console.log(requester, states, submissionId, fileName)
 		const certificateId = (await createScholarship(requester, states, submissionId, fileName)).toString()
 
 		const formData = message.order.items[0].xinput.form.data

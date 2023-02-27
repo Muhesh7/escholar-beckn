@@ -78,6 +78,7 @@ blockchain.get('/response/rejected', async (req, res) => {
 blockchain.get('/response/processing', async (req, res) => {
     if (!req.user) return res.status(401).send({message: 'Unauthorized'});
     const { email, role } = req.user;
+    console.log(req.user)
     const requester = { email, role };
     try {
         const requesterCertificates = JSON.parse(await queryScholarshipsOfRequester(requester));

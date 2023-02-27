@@ -6,5 +6,8 @@ export class User {
     public email: string;
 
     @Property()
-    public role: 'HoD' | 'Doctor' | 'Patient';
+    public domain: string;
+
+    @Property()
+    public role: 'Supervisor' | 'Officer' | 'Student';
 }
