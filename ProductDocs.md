@@ -97,7 +97,7 @@ Refer to [Architecture](./ProductDocs.md#workflow) for detailed architecture of 
 
 
 ## Services
-**Beckn Provider Platform As Service ( [BaaS](./bppas-service) )**
+**Beckn Provider Platform As Service ( [BaaS](./bpp-service) )**
 
 * This service allows a provider to create their own BPP in a multi-tenant architecture.
 
