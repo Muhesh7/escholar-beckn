@@ -2,7 +2,7 @@
 ___
 
 
-### **[BPPAS](./bppas-service/) User Guide**
+### **[BaaS](./bppas-service/) User Guide**
 * Visit https://portal.beckn.muhesh.studio
 
   ![Login](https://imgur.com/9X47paU.png)

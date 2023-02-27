@@ -3,7 +3,16 @@
 ___
 
 ## Abstract of the project
-The main objective of this project is to allow users to seamlessly create BPPs to publish scholarships (BPP as a service). A BAP service unifies all this scholarship information and presents it to the user. The entire scholarship process is tracked in blockchain.
+Our main goal is to create a blockchain powered platform that allows users to easily create and publish scholarships. Currently it is difficult for various organizations to onboard to a BPP. We have created a BaaS (BPP as a Service) that allows organizations to create their own BPPs and manage them. BPPs can now publish and manage scholarships.
+We have also created a BAP that allows users to search for scholarships and apply for them. 
+
+The BAP service unifies all scholarship information and presents it to the user, with the entire scholarship process tracked on the blockchain. With our user-friendly platform, you can seamlessly create and register BPPs on demand, create dynamic scholarship forms, and even use digital signatures to verify application details.
+
+We understand that scholarship providers need transparent way to manage applications, which is why we've created a tamper-proof system using Hyperledger technology. Plus, our BPP admin panel makes it easy to manage and oversee the scholarship application process.
+
+Our platform has a simple and efficient workflow that allows users to easily search for scholarships, select the ones they're interested in, initiate the application process, confirm their details, and check the status of their application.
+
+Our platform is designed for both scholarship providers and scholarship applicants around the world, regardless of their geographic location or demographic. We believe that everyone should have access to a simple and transparent scholarship application process, and we're proud to offer a solution that meets the needs of both providers and applicants.
 
 ## Features
 * Client Cert Authentication
@@ -88,7 +97,7 @@ Refer to [Architecture](./ProductDocs.md#workflow) for detailed architecture of 
 
 
 ## Services
-**Beckn Provider Platform As Service ( [BPPAS](./bppas-service) )**
+**Beckn Provider Platform As Service ( [BaaS](./bppas-service) )**
 
 * This service allows a provider to create their own BPP in a multi-tenant architecture.
 
