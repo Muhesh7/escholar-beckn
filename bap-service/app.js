@@ -55,7 +55,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-app.use(logger('dev'));
+app.use(logger('[:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
 
 app.use(express.json({
     limit: '50mb'

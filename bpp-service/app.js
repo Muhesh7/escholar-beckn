@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true}).then(() => {
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '50MB' }))
 app.use(bodyParser.json({ limit: '50MB' }))
-app.use(logger('dev'))
+app.use(logger('[:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
 app.use(cors())
 
 app.use(process.env.ROOT_ROUTE+ '/workflow' , require('@routes/workflow'))

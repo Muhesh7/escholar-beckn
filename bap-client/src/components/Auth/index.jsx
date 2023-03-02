@@ -157,7 +157,7 @@ export function Auth() {
                 <TextInput
                   label="Address"
                   placeholder="Your Address"
-                  value={form.values.name}
+                  value={form.values.address}
                   onChange={(event) =>
                     form.setFieldValue("address", event.currentTarget.value)
                   }
