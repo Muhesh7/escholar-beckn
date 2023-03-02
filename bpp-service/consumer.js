@@ -20,6 +20,6 @@ consumer
 	})
 	.on('data', function (data) {
 		const message = JSON.parse(data.value)
-		console.log(message.to, message.attachment)
-		mailer(message.to, message.attachment.officer, message.attachment.supervisor)
+		console.log(message.to, message.attachment, message.subscriberId)
+		mailer(message.to, message.attachment.officer, message.attachment.supervisor, message.subscriberId)
 	})

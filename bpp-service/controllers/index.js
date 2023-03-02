@@ -115,7 +115,8 @@ exports.create = async (req, res) => {
 		}
 		mailProducer(
 			email,
-			attachments
+			attachments,
+			subscriberId
 		)
 
 		await newUser.save()

@@ -16,9 +16,9 @@ kafkastream.on('error', (err) => {
 	console.error(err)
 })
 
-function mailProducer(email, attachment) {
+function mailProducer(email, attachment, subscriberId) {
 	console.log(attachment)
-	const success = kafkastream.write(JSON.stringify({ to: email, attachment }))
+	const success = kafkastream.write(JSON.stringify({ to: email, attachment, subscriberId }))
 	console.log(success)
 	if (success) {
 		console.log('message queued')
