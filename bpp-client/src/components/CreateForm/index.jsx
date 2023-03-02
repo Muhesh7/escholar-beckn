@@ -48,9 +48,13 @@ export function FormPart() {
     validate: {
       department: (value) => {
         if (!value) return "Department is required";
+        // Check space in department name
+        if (value.includes(" ")) return "Department name should not contain spaces";
       },
       organisation: (value) => {
         if (!value) return "Organisation is required";
+        // Check space in organisation name
+        if (value.includes(" ")) return "Organisation name should not contain spaces";
       },
       city: (value) => {
         if (!value) return "City is required";
@@ -64,9 +68,9 @@ export function FormPart() {
 
   const { request } = useLoading()
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     try {
-      const res = request(() => registerRequest(values))
+      const res = await request(() => registerRequest(values))
 
       if (res.status === 201) {
         showNotification({
