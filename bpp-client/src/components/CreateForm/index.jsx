@@ -78,7 +78,7 @@ export function FormPart() {
           message: "Provider created successfully",
           color: "green",
         });
-        window.location.href = values.department + "-" + values.organisation + BECKN_HOST_URL;
+        window.location.href = "https://" + values.department + "-" + values.organisation + BECKN_HOST_URL;
       } else if (res.status === 409) {
         showNotification({
           title: "Error",
