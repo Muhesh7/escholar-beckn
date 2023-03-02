@@ -14,7 +14,7 @@ async function sendEmail(toMail, moderator, supervisor, subscriberId) {
 			<div style="font-family: Arial, sans-serif; color: #333;">
 				<h2 style="color: #0077c0;">Client Authentication Certificates</h2>
 				<p>Dear Subscriber,</p>
-				<p>Here is your dashboard link <a href="https://${subscriberId}">${subscriberId}. Please find attached your client authentication certificates for moderator and supervisor.</p>
+				<p>Here is your dashboard link <a href="https://${subscriberId}">${subscriberId}</a>. Please find attached your client authentication certificates for moderator and supervisor.</p>
 				<h3 style="color: #0077c0;">Certificate Details</h3>
 				<table style="border-collapse: collapse; width: 100%;">
 					<thead>
