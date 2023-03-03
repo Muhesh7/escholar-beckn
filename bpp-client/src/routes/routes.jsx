@@ -1,20 +1,15 @@
 import React from 'react';
 
 import { GeneralPageContainer } from '../containers/GeneralPageContainer';
-// import { AuthPageContainer } from '../containers/AuthPageContainer';
 import { LandingPageContainer } from '../containers/LandingPageContainer';
 import { CreatePageContainer } from '../containers/CreatePageContainer';
 
 import { Homepage } from '../components/Home';
-// import { Search } from '../components/bap-search';
 import { Formbuilder } from '../components/FormBuilder';
-// import { FormViewer } from '../components/FormViewer';
-// import { FileUpload } from '../components/FileUpload';
 import { Workflow } from '../components/Workflow';
 import { ListWorkFlow } from '../components/ListWorkflow';
 import { ListForms } from '../components/ListForms';
 import { DisplayForms } from '../components/DisplayForms';
-// import { SetRoles } from '../components/SetRole';
 import { ProcessWorkflow } from '../components/ProcessWorkflow';
 
 import {
@@ -31,7 +26,10 @@ export const publicRoutes = [
     url: '/create',
     component: <CreatePageContainer />,
     name: 'CreatePageContainer'
-  },
+  }
+];
+
+export const privateRoutes = [
   {
     url: '/home',
     component: <GeneralPageContainer child={<Homepage />} />,
@@ -93,7 +91,4 @@ export const publicRoutes = [
     name: 'Process Workflow',
     label: 'documentsForApproval'
   },
-];
-
-export const privateRoutes = [
 ];

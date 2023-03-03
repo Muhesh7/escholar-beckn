@@ -4,6 +4,7 @@ import {
 } from '@mantine/core';
 import '@lottiefiles/lottie-player';
 import { BECKN_HOST_URL } from '../../config';
+import { useAuth } from '../../hooks/useAuth';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -47,6 +48,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Homepage() {
   const { classes } = useStyles();
+  const {user} = useAuth();
 
   return (
     <div className={classes.root}>
@@ -54,6 +56,8 @@ export function Homepage() {
       <Title className={classes.title} order={4}>
         Welcome,
         {' '}
+        {user.role}
+        {' @ '}
         {window.location.hostname.split(BECKN_HOST_URL)[0]}
         !
       </Title>

@@ -8,6 +8,7 @@ import {
   Text
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -70,9 +71,12 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+
 export function TopLanding() {
   const navigate = useNavigate();
   const { classes } = useStyles();
+
+  const { login } = useAuth();
   return (
     <div>
       <Container my={50}>
@@ -93,7 +97,13 @@ export function TopLanding() {
               E-Scholar is a certificate provider that allows you to create and manage your own scholarships.
             </Text>
             <Group mt={30}>
-              <Button radius="xl" size="md" className={classes.control} onClick={() => window.location.hostname === 'portal.beckn.muhesh.studio' ? navigate('/create') : navigate('/home')}>
+              <Button radius="xl" size="md" className={classes.control} onClick={() => {
+                if (window.location.hostname === 'portal.beckn.muhesh.studio') {
+                  navigate('/create')
+                } else {
+                  login();
+                }
+              }}>
                 {window.location.hostname === 'portal.beckn.muhesh.studio' ?
                   'Create a Scholarship Provider Account'
                   : 'Dashboard'

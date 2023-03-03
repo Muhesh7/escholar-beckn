@@ -177,7 +177,6 @@ router.get('/response/toapprove', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
 	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
 	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
-	if (role === 'Patient') return res.status(401).send({ message: 'Unauthorized' })
 	const approver = { email, role }
 	try {
 		const certificates = JSON.parse(await queryScholarshipsOfApprover(approver))
@@ -196,7 +195,7 @@ router.get('/response/doc_status/:id', async (req, res) => {
 	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	const user = { email, role }
 	try {
-		const requesterCertificates = role === 'Patient' ? JSON.parse(await queryScholarshipsOfRequester(user)) : JSON.parse(await queryScholarshipsOfApprover(user))
+		const requesterCertificates = JSON.parse(await queryScholarshipsOfApprover(user))
 		const result = requesterCertificates.find(certificate => certificate.id === parseInt(req.params.id))
 		res.json(result)
 	}
@@ -210,7 +209,6 @@ router.get('/response/landing', async (req, res) => {
 	// if(!req.user) return res.status(401).send({message: 'Unauthorized'})
 	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
 	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
-	if (role !== 'Patient') return res.status(401).send({ message: 'Unauthorized' })
 
 	try {
 		const user = { email, role }
@@ -248,19 +246,8 @@ router.get('/response/landing', async (req, res) => {
 
 router.get('/all', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
-	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
-	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
 	try {
 		let forms = await Form.find({})
-		if (role === 'Patient') {
-			const requester = { email, role }
-			const certificates = JSON.parse(await queryScholarshipsOfRequester(requester))
-			forms = forms.filter(form => {
-				const filteredDocs = certificates.find(doc => doc.formId === form._id)
-				return !filteredDocs || filteredDocs.every(doc => doc.currentStatus === 'Rejected')
-			}
-			)
-		}
 		res.json(forms)
 	}
 	catch (err) {
@@ -315,7 +302,7 @@ router.patch('/response/:id/approve', async (req, res) => {
 			isFinal = true
 		}
 		const response = await axios.post(process.env.SIGNER_ENDPOINT, {
-			email: role+'-'+email,
+			email: role + '-' + email,
 			cert: blockChainUser.credentials.certificate,
 			key: blockChainUser.credentials.privateKey,
 			cid: currentHash,
@@ -364,6 +351,17 @@ router.patch('/response/:id/reject', async (req, res) => {
 		console.log(err)
 		return res.status(500).json({ message: 'Failed to reject certificate' })
 	}
+})
+
+router.get('/user', (req, res) => {
+	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
+	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
+
+	res.send({
+		name: email,
+		role: role,
+		email: email
+	})
 })
 
 router.post('/create', bppController.create)

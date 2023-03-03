@@ -4,10 +4,9 @@ import React, {
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { showNotification } from '@mantine/notifications';
-import { loginRequest, logoutRequest, userRequest } from '../utils/requests';
+import { userRequest } from '../utils/requests';
 import { useLocalStorage } from './useLocalStorage';
 import { useLoading } from './useLoading';
-import { navLinks } from '../routes/navLinks';
 
 const AuthContext = createContext();
 
@@ -16,66 +15,36 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
   const { request } = useLoading();
 
-  const login = async (data) => {
-    try {
-      const response = await request(() => loginRequest(data));
-      if (response.status === 200) {
-        const res = await request(userRequest);
-        setUser(res.data);
-        showNotification({
-          title: 'Login successful'
-        });
-        navigate(navLinks.filter((link) => link.label === res.data.tabs[0])[0].link);
-      } else {
-        showNotification({
-          color: 'red',
-          title: 'Login failed',
-          message: response.data.message
-        });
-      }
-    } catch (error) {
-      showNotification({
-        color: 'red',
-        title: 'Login failed',
-        message: error.response.data
-            && error.response.data.message ? error.response.data.message : error.message
-      });
-    }
-  };
-
-  const logout = async () => {
-    try {
-      const response = await request(logoutRequest);
-      if (response.status === 200) {
-        navigate('/auth');
-        showNotification({
-          title: 'Logout successful'
-        });
-        setUser(null);
-      } else {
-        showNotification({
-          color: 'red',
-          title: 'Logout failed',
-          message: response.data.message
-        });
-      }
-    } catch (error) {
-      showNotification({
-        color: 'red',
-        title: 'Logout failed',
-        message: error.response.data
-        && error.response.data.message ? error.response.data.message : error.message
-      });
-    }
-  };
-
   const value = useMemo(
     () => ({
       user,
-      login,
-      logout
+      login: async () => {
+        try {
+          const response = await request(userRequest);
+          if (response.status === 200) {
+            setUser(response.data);
+            showNotification({
+              title: 'Login successful'
+            });
+            navigate('/home');
+          } else {
+            showNotification({
+              color: 'red',
+              title: 'Login failed',
+              message: response.data.message
+            });
+          }
+        } catch (error) {
+          showNotification({
+            color: 'red',
+            title: 'Login failed',
+            message: error.response.data
+              && error.response.data.message ? error.response.data.message : error.message
+          });
+        }
+      }
     }),
-    [user]
+    [user, setUser, navigate, request]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

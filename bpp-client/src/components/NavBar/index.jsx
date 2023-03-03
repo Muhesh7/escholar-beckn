@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  createStyles, Navbar, UnstyledButton,
+  createStyles, Navbar,
   ActionIcon,
   useMantineColorScheme, Center, Select
 } from '@mantine/core';
 import {
-  IconLogout,
   IconSun, IconMoonStars
 } from '@tabler/icons';
 import {
@@ -92,7 +91,7 @@ export function NavBar({ opened, setOpened }) {
 
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     setActive(location.pathname);
@@ -158,11 +157,7 @@ export function NavBar({ opened, setOpened }) {
       />
 
       <Navbar.Section className={classes.footer}>
-        {user && <UserInfo name={user.name} email={user.email} />}
-        <UnstyledButton className={classes.link} onClick={logout}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>{t('logout')}</span>
-        </UnstyledButton>
+        {user && <UserInfo role={user.role} email={user.email} />}
       </Navbar.Section>
     </Navbar>
   );
