@@ -177,7 +177,9 @@ router.get('/response/toapprove', async (req, res) => {
 	// if (!req.user) return res.status(401).send({message: 'Unauthorized'})
 	const email = req.headers['x-user'].match(/OU=(.*?),/)[1]
 	const role = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[0]
-	const approver = { email, role }
+	const domain = req.headers['x-user'].match(/CN=(.*?),/)[1].split('@')[1]
+	const approver = { email, role, domain }
+	console.log(approver)
 	try {
 		const certificates = JSON.parse(await queryScholarshipsOfApprover(approver))
 		certificates.forEach(certificate => { if (!certificate.name) certificate.name = 'Certificate from ' + certificate.requester.email })
